@@ -63,12 +63,13 @@ int main()
 {
     char card_name[3];
     int count = 0;
+    int val;
     do {
         puts("Enter the card name: ");
         scanf("%2s", card_name);
         
         /* Compute card value */
-        int val = get_card_value(card_name);
+        val = get_card_value(card_name);
         if (val == -1) {
             continue;
         }
