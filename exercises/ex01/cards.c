@@ -1,9 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
  * Cards.c - runs a card game and counts cards
+ * 
+ * Author: Patrick Huston | @phuston | patrick.huston@students.olin.edu
+ * Version: 1.0
+ * Updated: 1/25/18
  */
+
+
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
  * Updates the card counting value based on the current value of card
