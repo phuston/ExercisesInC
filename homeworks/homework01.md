@@ -2,9 +2,15 @@
 
 ### C Exercises
 
+Modify the link below so it points to the `ex01` directory in your
+student repository.
+
 [Here is a link to the ex01 directory in my repository](https://github.com/phuston/ExercisesInC/tree/master/exercises/ex01)
 
 ### Think OS Chapter 1 reading questions
+
+For each of the reading questions below, write answers in the form of
+a clear, concise, complete sentence or two.
 
 1) Give an example of a feature common in interpreted languages that is rare in compiled languages.
 
@@ -28,8 +34,7 @@
 
   The `-S` flag tells the compiler to generate assembly code, and depending on the architecture of your processor, the instruction set (and thus the output) may end up being slightly different.
 
-6) If you spell a variable name wrong, or if you spell a function name wrong, the error messages 
-you get might look very different.  Why?
+6) If you spell a variable name wrong, or if you spell a function name wrong, the error messages you get might look very different.  Why?
 
   If you spell a variable or function name wrong, you will get an error message from the linker as it trys to find something that isn't defined in any of the standard libraries.
 
