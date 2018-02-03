@@ -14,19 +14,20 @@ int *foo() {
     int i;
     int array[SIZE];
 
-    //printf("%p\n", array);
+    printf("%p\n", array); // Array initialized in local stack
 
     for (i=0; i<SIZE; i++) {
         array[i] = 42;
     }
-    return array;
+
+    return array; // Returns a pointer to this local array
 }
 
 void bar() {
     int i;
-    int array[SIZE];
+    int array[SIZE]; // Creates another array in the stack - overwrites other arr
 
-    //printf("%p\n", array);
+    printf("Bar %p\n", array);
 
     for (i=0; i<SIZE; i++) {
         array[i] = i;
@@ -36,10 +37,12 @@ void bar() {
 int main()
 {
     int i;
-    int *array = foo();
+    int *array = foo(); // Just a pointer to the stack, which is volatile
     bar();
 
     for (i=0; i<SIZE; i++) {
+        // Reads from the stack, which will have been written to since foo() ran
+        // Where a seg fault could potentially occur
         printf("%d\n", array[i]);
     }
 
