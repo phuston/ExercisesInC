@@ -46,7 +46,6 @@ double * get_int_part(double array[], int length) {
     return array_cpy;
 }
 
-
 void test_get_int_part()
 {
     double array[] = {1.2, 2.718, 3.1412, 5.6};
@@ -72,7 +71,6 @@ returns: new array, caller must free
 */
 //TODO: Write this function
 
-/*
 void test_get_both_parts()
 {
     double array[] = {1.2, 2.718, 3.14159, 5.6};
@@ -95,6 +93,6 @@ void test_get_both_parts()
 int main (int argc, char *argv[])
 {
     test_get_int_part();
-    //test_get_both_parts();
+    // test_get_both_parts();
     printf("All tests passed\n");
 }
