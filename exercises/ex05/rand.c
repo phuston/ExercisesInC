@@ -78,8 +78,36 @@ float my_random_float2()
 // compute a random double using my algorithm
 double my_random_double()
 {
-    // TODO: fill this in
+    long x;
+    long mant;
+    long exp = 1022;
+    long mask = 1;
+
+    union {
+        double d;
+        long i;
+    } b;
+
+    while(1){
+        x = random() << 32 | random();
+        if (x == 0){
+            exp -= 63;
+        }
+        else{
+            break;
+        }
+    }
+
+    while (x & mask){
+        mask <<= 1;
+        exp --;
+    }
+
+    mant = x >> 11;
+    b.i = (exp << 52) | mant;
+    return b.d;
 }
+
 
 // return a constant (this is a dummy function for time trials)
 float dummy()
