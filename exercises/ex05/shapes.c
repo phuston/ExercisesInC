@@ -19,17 +19,7 @@ MIT License
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define BUFSIZE 100
-
-typedef struct {
-    double x, y;
-} Point;
-
-typedef struct {
-    Point *corner;
-    double width, height;
-} Rectangle;
+#include "shapes.h"
 
 /* Return a new Point
 
@@ -108,6 +98,7 @@ returns: 1 if the point is in the rectangle, else 0
 int point_in_rect(Point *p, Rectangle *rect) {
     return (p->x >= rect->corner->x) && (p->x <= rect->corner->x + rect->width) && (p->y >= rect->corner->y) && (p->y <= rect->corner->y + rect->height);
 }
+<<<<<<< HEAD
 
 void test_point()
 {
@@ -159,3 +150,5 @@ int main (int argc, char *argv[])
     free_rectangle(rectangle);
     return 0;
 }
+=======
+>>>>>>> 404fe70a7f9da4615d50c6773feb3b175db907ef
