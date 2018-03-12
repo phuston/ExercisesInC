@@ -47,7 +47,11 @@ e) Failing to free a chunk that is no longer needed.
 to see a list of processes sorted by RSS, which is "resident set size", the amount of physical 
 memory a process has.  Which processes are using the most memory?
 
+- The processes currently using the most memory are Chrome, system updates, and Spotify. 
+
 4) What's wrong with allocating a large number of small chunks?  What can you do to mitigate the problem?
+
+- If you allocate a lot of small chunks, you run the risk of fragmentation - when the memory contains a lot of small free spaces, it's hard to find enough space to allocate new memory. 
 
 If you want to know more about how malloc works, read 
 [Doug Lea's paper about dlmalloc](http://gee.cs.oswego.edu/dl/html/malloc.html)
