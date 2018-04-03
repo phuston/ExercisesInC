@@ -21,7 +21,7 @@ student repository.
 
 3) What is the difference between an interrupt and a context switch?
 
-    - An interrupt refers to the signal given by a program to the kernel. A context switch is what happens when the kernel decides to switch to another process after receiving an interrupt. 
+    - An interrupt happens when a process stops running, the kernel does whatever work is needed, and then the same process is resumed. This is more lightweight than a context switch, which occurs when the kernel ends up switching to an entirely different process - requiring that more process state be persisted in the registers. 
 
 4) Give an example of an event that might cause a process to move from the blocked to the ready state.
 
