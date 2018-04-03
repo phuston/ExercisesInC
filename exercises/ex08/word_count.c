@@ -1,3 +1,12 @@
+/* 
+ * word_count reads in a specified file and prints out 
+ * individual frequencies for how often each word appears
+ *
+ * Author: Patrick Huston
+ * Software Systems SP18
+ * Olin College of Engineering
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,6 +32,10 @@ char* read_line(FILE *file, int *status) {
 
 }
 
+/*
+ * Tokenizes each line, and adds the word to the
+ * frequency hashtable
+ */
 void split_words(char *str, GHashTable *hash) {
     char* word = strtok(str, " ");
     gpointer value = NULL;
@@ -30,9 +43,11 @@ void split_words(char *str, GHashTable *hash) {
     while(word != NULL) {
         value = g_hash_table_lookup(hash, word);
         if(value != NULL) {
+            // Value is present, increment
             i = (int*) value;
             *i = *i + 1;
         } else {
+            // Value not present, add to hashtable
             i = malloc(sizeof(int));
             *i = 1;
         }
@@ -43,6 +58,10 @@ void split_words(char *str, GHashTable *hash) {
     }
 }
 
+/* 
+ * Takes in a pointer to a line, iterates through
+ * and removes all punctuation and lowercases string
+ */
 void clean_line(char *line, char *cleaned_line) {
     for (; *line; ++line)
         if (!ispunct((unsigned char) *line))
@@ -50,6 +69,10 @@ void clean_line(char *line, char *cleaned_line) {
     *cleaned_line = 0;
 }
 
+/*
+ * Reads words in from a file, cleans words, and splits
+ * Results are stored in the GHashTable passed in as a param
+ */
 void read_words(FILE *file, int *status, GHashTable *hash) {
     char* line = NULL;
     line = read_line(file, status);
@@ -57,6 +80,9 @@ void read_words(FILE *file, int *status, GHashTable *hash) {
     split_words(line, hash);
 }
 
+/*
+ * Prints frequencies of word from input hashtable
+ */ 
 void print_freq(GHashTable *hash) {
     GHashTableIter iter;
 	gpointer key, value; 
