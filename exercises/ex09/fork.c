@@ -12,7 +12,7 @@ License: MIT License https://opensource.org/licenses/MIT
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <wait.h>
+#include <sys/wait.h>
 
 
 // errno is an external global variable that contains
@@ -29,11 +29,14 @@ double get_seconds() {
     return tv->tv_sec + tv->tv_usec / 1e6;
 }
 
-
-void child_code(int i)
+// stack_test: variable to test whether threads share same stack
+// heap_test: variable to test whether threads share same heap
+void child_code(int i, int* stack_test, int* heap_test)
 {
     sleep(i);
     printf("Hello from child %d.\n", i);
+    printf("stack value: %d  heap value: %d  \n", *stack_test, *heap_test);
+    exit(i);
 }
 
 // main takes two parameters: argc is the number of command-line
@@ -41,10 +44,17 @@ void child_code(int i)
 // line arguments
 int main(int argc, char *argv[])
 {
+    /*
+     * Sweeps through parent and child processes, printing statements
+     * from within processes to test values.
+     */
     int status;
     pid_t pid;
     double start, stop;
     int i, num_children;
+    int stack_test = 0;
+    int* heap_test = malloc(sizeof(int));
+    *heap_test = 0;
 
     // the first command-line argument is the name of the executable.
     // if there is a second, it is the number of children to create.
@@ -70,9 +80,12 @@ int main(int argc, char *argv[])
             exit(1);
         }
 
+        stack_test += 1;
+        *heap_test += 1;
+
         /* see if we're the parent or the child */
         if (pid == 0) {
-            child_code(i);
+            child_code(i, &stack_test, heap_test);
             exit(i);
         }
     }
@@ -80,6 +93,7 @@ int main(int argc, char *argv[])
     /* parent continues */
     printf("Hello from the parent.\n");
 
+    printf("stack value: %d  heap value: %d  \n", stack_test, *heap_test);
     for (i=0; i<num_children; i++) {
         pid = wait(&status);
 
