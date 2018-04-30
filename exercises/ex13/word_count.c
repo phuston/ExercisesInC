@@ -56,6 +56,8 @@ void accumulator(gpointer key, gpointer value, gpointer user_data)
         (gpointer) pair,
         (GCompareDataFunc) compare_pair,
         NULL);
+
+    g_free(value);
 }
 
 /* Increments the frequency associated with key. */
@@ -70,6 +72,19 @@ void incr(GHashTable* hash, gchar *key)
     } else {
         *val += 1;
     }
+}
+
+void new_free_pair(gpointer pair_data){
+  Pair *pair = (Pair*) pair_data;
+  g_free(pair);
+}
+
+void freeKV(gpointer key, gpointer value, gpointer user_data)
+{
+    free(value);
+    free(key);
+    free(user_data);
+    
 }
 
 int main(int argc, char** argv)
@@ -91,12 +106,13 @@ int main(int argc, char** argv)
 
     /* string array is a(two-L) NULL terminated array of pointers to
     (one-L) NUL terminated strings */
-    gchar **array;
+    
     gchar line[128];
     GHashTable* hash = g_hash_table_new(g_str_hash, g_str_equal);
 
     // read lines from the file and build the hash table
     while (1) {
+        gchar **array;
         gchar *res = fgets(line, sizeof(line), fp);
         if (res == NULL) break;
 
@@ -104,18 +120,18 @@ int main(int argc, char** argv)
         for (int i=0; array[i] != NULL; i++) {
             incr(hash, array[i]);
         }
+        g_strfreev(array);
     }
     fclose(fp);
 
-    // print the hash table
-    // g_hash_table_foreach(hash, (GHFunc) kv_printor, "Word %s freq %d\n");
-
     // iterate the hash table and build the sequence
-    GSequence *seq = g_sequence_new(NULL);
+    GSequence *seq = g_sequence_new(new_free_pair);
     g_hash_table_foreach(hash, (GHFunc) accumulator, (gpointer) seq);
 
     // iterate the sequence and print the pairs
     g_sequence_foreach(seq, (GFunc) pair_printor, NULL);
+
+    g_hash_table_foreach(hash, (GHFunc) freeKV, NULL);
 
     // try (unsuccessfully) to free everything
     g_hash_table_destroy(hash);

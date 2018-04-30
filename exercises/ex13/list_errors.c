@@ -174,23 +174,21 @@ Node *make_something() {
     int val = pop(&node1);
     push(&node2, val);
     node3->next = node2;
+
     return node3;
 }
 
-/*
-this function is the one I added, it frees up mallocs in a list
-list: the list to be freed
-*/
-void free_list(Node **list){
-    Node *node = *list;
-    Node *next = node;
-    while(next != NULL){
-        next = next->next;
-        free(node);
-        node = next;
+void free_list(Node *list){
+    Node *current = list;
+    Node *nextN = current;
+    while (nextN != NULL){
+        nextN = current->next;
+        free(current);
+        current = nextN;
     }
-}
 
+    free(current);
+}
 
 int main() {
     // make a list of even numbers
@@ -211,6 +209,7 @@ int main() {
     printf("test_list\n");
     print_list(&test_list);
 
+    free_list(test_list);
     // make an empty list
     printf("empty\n");
     Node *empty = NULL;
@@ -218,12 +217,11 @@ int main() {
     // add an element to the empty list
     insert_by_index(&empty, 1, 0);
     print_list(&empty);
-
-    free_list(&test_list);
-    free_list(&empty);
+    free_list(empty);
 
     Node *something = make_something();
-    free_list(&something);
+    free_list(something);
+
 
     return 0;
 }
