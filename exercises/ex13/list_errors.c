@@ -142,10 +142,8 @@ void reverse(Node **list) {
 
 
 /* Adds a new element to the list before the indexed element.
-
 Index 0 adds an element to the beginning.
 Index 1 adds an element between the first and second elements.
-
 Returns 0 if successful, -1 if the index is out of range.
 */
 int insert_by_index(Node **head, int val, int index) {
@@ -176,8 +174,21 @@ Node *make_something() {
     int val = pop(&node1);
     push(&node2, val);
     node3->next = node2;
-
     return node3;
+}
+
+/*
+this function is the one I added, it frees up mallocs in a list
+list: the list to be freed
+*/
+void free_list(Node **list){
+    Node *node = *list;
+    Node *next = node;
+    while(next != NULL){
+        next = next->next;
+        free(node);
+        node = next;
+    }
 }
 
 
@@ -208,8 +219,11 @@ int main() {
     insert_by_index(&empty, 1, 0);
     print_list(&empty);
 
+    free_list(&test_list);
+    free_list(&empty);
+
     Node *something = make_something();
-    free(something);
+    free_list(&something);
 
     return 0;
 }
